@@ -7,9 +7,9 @@ const expiration = '2h';
 
 module.exports = {
   // function for our authenticated routes
-  authMiddleware: function (context) {
-    // Get the request headers from the context
-    const authHeader = context.req.headers.authorization;
+  authMiddleware: function (req) {
+    // Get the request headers
+    const authHeader = req.headers.authorization;
 
     if (!authHeader) {
       throw new AuthenticationError('You have no token!');
