@@ -1,8 +1,9 @@
 const { authMiddleware, verifyToken } = require('./utils/auth');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
+const cors = require('cors')
 const express = require('express');
-const { typeDefs, resolvers } = require('./models');
+const { typeDefs, resolvers } = require('./schema');
 const path = require('path');
 const db = require('./config/connection');
 const routes = require('./routes');
@@ -34,26 +35,18 @@ const server = new ApolloServer({
 });
 
 const setup = async function () {
-  await server.start();
-
+  
   // Apply the GraphQL middleware directly to the app
+  await server.start()
   
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-
-  app.use('/graphql', (req, res, next) => {
-    expressMiddleware({
-      schema,
-      context: ({ req }) => {
-        const user = authMiddleware(req);
-        return { user };
-      },
-      persistedQueries: false,
-    })(req, res, next);
-  });
+  app.use('/graphql', expressMiddleware(server));
+  
 
 
-  app.use(routes);
+
+  
   
   if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));

@@ -18,7 +18,7 @@ module.exports = {
   },
   // create a user, sign a token, and send it back (to client/src/components/SignUpForm.js)
   async createUser({ body }, res) {
-    console.log(User)
+    console.log({User})
     const user = await User.create(body);
 
     if (!user) {
@@ -46,6 +46,7 @@ module.exports = {
   // save a book to a user's `savedBooks` field by adding it to the set (to prevent duplicates)
   // user comes from `req.user` created in the auth middleware function
   async saveBook({ user, body }, res) {
+    console.log("hello")
     console.log(user, body);
     try {
       const updatedUser = await User.findOneAndUpdate(
