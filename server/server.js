@@ -14,24 +14,21 @@ const PORT = process.env.PORT || 3001;
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  // context: 
-  // ({ req }) => {
-  //   // Retrieve the user's authentication token from the request headers, if available.
-  //   const token = req.headers.authorization || '';
+  context: ({ req }) => {
+    // Retrieve the user's authentication token from the request headers, if available.
+    const token = req.headers.authorization || '';
 
-  //   // Decode and verify the token to identify the user (if authenticated).
-  //   const user = token ? verifyToken(token) : null; // Implement token verification function.
-    
-  //   // Initialize database connection and external API client.
-  //   // const externalApi = initializeExternalApi();
+    // Decode and verify the token to identify the user (if authenticated).
+    const user = token ? verifyToken(token) : null; // Implement the token verification function.
 
-  //   return {
-  //     user, // The authenticated user (or null if not authenticated).
-  //     token, // Database connection or ORM instance.
-  //     // externalApi, // External API client.
-  //   };
-  // },
-  
+
+    // Can include your database connection or external API client.
+
+    return {
+      user, // The authenticated user (or null if not authenticated).
+      // Can include other values here.
+    };
+  },
 });
 
 const setup = async function () {

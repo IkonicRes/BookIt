@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { useCreateUser } from '../utils/API'; // Import the GraphQL mutation hook
+import { ADD_USER } from '../utils/API'; // Import the GraphQL mutation hook
 import Auth from '../utils/auth';
 
 const SignupForm = () => {
@@ -8,7 +8,7 @@ const SignupForm = () => {
   const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const [createUser, { error }] = useCreateUser(); // Use the createUser mutation hook
+  const [createUser] = ADD_USER(); // Use the createUser mutation hook
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -29,7 +29,7 @@ const SignupForm = () => {
         variables: { ...userFormData },
       });
 
-      const { token, user } = data.createUser;
+      const { token } = data.createUser;
 
       Auth.login(token);
     } catch (err) {

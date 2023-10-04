@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { useLoginUser } from '../utils/API';
+import { LOGIN_USER } from '../utils/API';
 import Auth from '../utils/auth';
 
 const LoginForm = () => {
@@ -26,7 +26,7 @@ const LoginForm = () => {
     }
   
     try {
-      const [loginUser] = useLoginUser(); 
+      const [loginUser] = LOGIN_USER(); 
       const response = await loginUser({ variables: userFormData });
   
       if (!response.ok) {
